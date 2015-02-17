@@ -62,8 +62,8 @@ create table Users (
 )   ENGINE=InnoDB DEFAULT CHARSET=latin1;
 create table Journals (
    id       int     not null,
-   title    varchar         ,
-   content  varchar         ,
+   title    varchar(255)    ,
+   content  varchar(255)    ,
    owner_id int             ,
    constraint pk_Journals primary key (id)
 )   ENGINE=InnoDB DEFAULT CHARSET=latin1;
