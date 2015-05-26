@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Custom\AzureusBundle\Entity\User;
+use Custom\AzureusBundle\Entity\UserInfo;
 use Custom\AzureusBundle\Form\UserType;
 
 /**
@@ -36,12 +37,16 @@ class UserController extends Controller
     public function createAction(Request $request)
     {
         $entity = new User();
+        $user_info = new UserInfo();
+        $entity->setInfo($user_info);
+        $user_info->setOwner($entity);
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
+            $em->persist($user_info);
             $em->flush();
 
             return $this->redirect($this->generateUrl('admin_user_show', array('id' => $entity->getId())));

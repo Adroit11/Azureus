@@ -13,6 +13,12 @@ class Registration
      * @Assert\Valid()
      */
     protected $user;
+    
+    /**
+     * @Assert\Type(type="Custom\AzureusBundle\Entity\UserInfo")
+     * @Assert\Valid()
+     */
+    protected $user_info;
 
     /**
      * @Assert\NotBlank()
@@ -23,11 +29,18 @@ class Registration
     public function setUser(User $user)
     {
         $this->user = $user;
+        $this->user_info->owner = $user;
+        $this->user->info = $user_info;
     }
 
     public function getUser()
     {
         return $this->user;
+    }
+    
+    public function getUserInfo()
+    {
+        return $this->user_info;
     }
 
     public function getTermsAccepted()
