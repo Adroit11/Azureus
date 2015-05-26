@@ -1,7 +1,7 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>User</h1>
+    <h1>UserInfo</h1>
 
     <table class="record_properties">
         <tbody>
@@ -10,28 +10,32 @@
                 <td>{{ entity.id }}</td>
             </tr>
             <tr>
-                <th>Username</th>
-                <td>{{ entity.username }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ entity.password|slice(0,20) }}</td>
-            </tr>
-            <tr>
                 <th>Name</th>
-                <td>{{ entity.info }}</td>
+                <td>{{ entity.name }}</td>
+            </tr>
+            <tr>
+                <th>Surname</th>
+                <td>{{ entity.surname }}</td>
+            </tr>
+            <tr>
+                <th>Bio</th>
+                <td>{{ entity.bio }}</td>
+            </tr>
+            <tr>
+                <th>Country</th>
+                <td>{{ entity.country }}</td>
             </tr>
         </tbody>
     </table>
 
         <ul class="record_actions">
     <li>
-        <a href="{{ path('admin_user') }}">
+        <a href="{{ path('usertype') }}">
             Back to the list
         </a>
     </li>
     <li>
-        <a href="{{ path('admin_user_edit', { 'id': entity.id }) }}">
+        <a href="{{ path('usertype_edit', { 'id': entity.id }) }}">
             Edit
         </a>
     </li>

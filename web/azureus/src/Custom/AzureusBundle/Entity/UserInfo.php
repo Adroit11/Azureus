@@ -50,7 +50,9 @@ class UserInfo
     private $country;
     
     /** 
-     * @ORM\OneToOne(targetEntity="User", inversedBy="info")
+     * @var User
+     * 
+     * @ORM\OneToOne(targetEntity="User", inversedBy="info", cascade={"persist"})
      * @ORM\JoinColumn(name="owner_id", referencedColumnName="id")
      **/
     private $owner;
@@ -156,5 +158,29 @@ class UserInfo
     public function getCountry()
     {
         return $this->country;
+    }
+
+    /**
+     * Set owner
+     *
+     * @param \Custom\AzureusBundle\Entity\User $owner
+     * @return UserInfo
+     */
+    public function setOwner(\Custom\AzureusBundle\Entity\User $owner)
+    {
+        $owner->setInfo($this);
+        $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * Get owner
+     *
+     * @return \Custom\AzureusBundle\Entity\User 
+     */
+    public function getOwner()
+    {
+        return $this->owner;
     }
 }

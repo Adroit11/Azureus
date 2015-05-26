@@ -49,8 +49,9 @@ class UserInfo
      */
     private $country;
     
-    /* @ORM\OneToOne(targetEntity="Owner", inversedBy="info")
-     * @ORM\@JoinColumn(name="owner_id", referencedColumnName="id")
+    /** 
+     * @ORM\OneToOne(targetEntity="User", inversedBy="info")
+     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id")
      **/
     private $owner;
 

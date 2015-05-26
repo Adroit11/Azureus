@@ -1,11 +1,12 @@
 <?php
+
 namespace Custom\AzureusBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class UserType extends AbstractType
+class UserInfoType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -14,11 +15,11 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username')
-            ->add('password', 'password') //drugi argument robi input jako password
+            ->add('name')
+            ->add('surname')
+            ->add('bio')
+            ->add('country')
         ;
-        
-        $builder->add('info', new UserInfoType());
     }
     
     /**
@@ -27,7 +28,7 @@ class UserType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Custom\AzureusBundle\Entity\User'
+            'data_class' => 'Custom\AzureusBundle\Entity\UserInfo'
         ));
     }
 
@@ -36,6 +37,6 @@ class UserType extends AbstractType
      */
     public function getName()
     {
-        return 'custom_azureusbundle_user';
+        return 'custom_azureusbundle_userinfo';
     }
 }

@@ -1,3 +1,7 @@
+custom_azureus_usertype:
+    resource: "@CustomAzureusBundle/Resources/config/routing/userinfo.yml"
+    prefix:   /usertype
+
 custom_azureus_admin_user:
     resource: "@CustomAzureusBundle/Resources/config/routing/user.yml"
     prefix:   /admin/user
@@ -16,3 +20,11 @@ login_check:
 
 logout:
     pattern:  /logout
+    
+account_register:
+    path:     /register
+    defaults: { _controller: CustomAzureusBundle:Account:register }
+
+account_create:
+    path:     /register/create
+    defaults: { _controller: CustomAzureusBundle:Account:create }

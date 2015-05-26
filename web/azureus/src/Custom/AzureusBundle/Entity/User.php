@@ -43,7 +43,9 @@ class User implements UserInterface {
     private $gallery;
 
     /**
-     * @ORM\OneToOne(targetEntity="UserInfo", mappedBy="owner")
+     * @var UserInfo
+     * 
+     * @ORM\OneToOne(targetEntity="UserInfo", mappedBy="owner", cascade={"persist", "remove"})
      * */
     private $info;
 
