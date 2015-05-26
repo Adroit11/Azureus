@@ -4,6 +4,7 @@ namespace Custom\AzureusBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use EWZ\Bundle\RecaptchaBundle\EWZRecaptchaBundle;
 
 class RegistrationType extends AbstractType
 {
@@ -14,7 +15,8 @@ class RegistrationType extends AbstractType
             'terms',
             'checkbox',
             array('property_path' => 'termsAccepted')
-        );
+        );    
+        $builder->add('recaptcha', 'ewz_recaptcha');
         $builder->add('Register', 'submit');
     }
 

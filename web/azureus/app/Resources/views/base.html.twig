@@ -28,20 +28,22 @@
             <div id="header">
                 <p id="logo">Azureus</p>
                 <div id="nav">
-{#                    <a href="{{ path('custom_cms_homepage')}}">Home</a>
+                    <a href="{{ path('custom_azureus_homepage')}}">Home</a>
                     {% if is_granted('ROLE_ADMIN') %}
                         | <a href="{{ path('cms_user') }}">Users</a> |
-                    {% elseif is_granted('ROLE_USER') %}
-                        | <a href="{{ path('cms_page') }}">Pages</a> |
-                        <a href="{{ path('cms_image') }}">Images</a> |
-                    {% endif %}#}
+{#                    {% elseif is_granted('ROLE_USER') %}
+                        | <a href="{{ path('cms_page') }}">Add art</a> |
+                        <a href="{{ path('cms_image') }}">Add post</a> |#}
+                    {% endif %}
                     
                     {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_USER')%}
                             {{ app.user.username }} 
                             <a href="{{ path('logout') }}">Logout</a>
                     {% else %}
                         {% if app.request.get('_route') != 'login' %}
+                            <br>
                             {{ render(controller('CustomAzureusBundle:Security:loginWidget')) }}
+                            <a href="{{ path('account_register')}}">Register</a>
                         {% endif %}
                     {% endif %}
                          

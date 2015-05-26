@@ -11,7 +11,7 @@ and open the template in the editor.
 #container {
     padding: 20px;
     margin: 20px auto;
-    width: 500px;
+    width: 1200px;
     border: 1px solid #000;
 }
 
@@ -36,4 +36,8 @@ and open the template in the editor.
 .image {
     height: 300px;
     height: auto;
+}
+
+.login {
+    display: inline;
 }
