@@ -1,3 +1,18 @@
+custom_azureus_admin_user:
+    resource: "@CustomAzureusBundle/Resources/config/routing/user.yml"
+    prefix:   /admin/user
+
+ 
 custom_azureus_homepage:
-    path:     /hello/{name}
+    path:     /
     defaults: { _controller: CustomAzureusBundle:Default:index }
+
+login:
+    path:     /login
+    defaults: { _controller: CustomAzureusBundle:Security:login }
+    
+login_check:
+    path:     /login_check
+
+logout:
+    pattern:  /logout

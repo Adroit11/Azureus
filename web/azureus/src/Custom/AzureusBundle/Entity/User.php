@@ -12,8 +12,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Table()
  * @ORM\Entity
  */
-class User implements UserInterface
-{
+class User implements UserInterface {
+
     /**
      * @var integer
      *
@@ -36,26 +36,26 @@ class User implements UserInterface
      * @ORM\Column(name="password", type="string", length=64)
      */
     private $password;
-  
+
     /**
      * @ORM\OneToMany(targetEntity="Art", mappedBy="owner")
      */
     private $gallery;
-    
+
     /**
      * @ORM\OneToOne(targetEntity="UserInfo", mappedBy="owner")
-     **/
+     * */
     private $info;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="Post", mappedBy="owner")
      */
     private $journal;
-    
+
     /**
      * @ORM\ManyToMany(targetEntity="Art", inversedBy="favourites")
      * @ORM\JoinTable(name="users_favourites")
-     **/
+     * */
     private $favourites;
 
     function __construct() {
@@ -63,15 +63,13 @@ class User implements UserInterface
         $this->journal = new \Doctrine\Common\Collections\ArrayCollection();
         $this->gallery = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
-    
+
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -81,8 +79,7 @@ class User implements UserInterface
      * @param string $username
      * @return User
      */
-    public function setUsername($username)
-    {
+    public function setUsername($username) {
         $this->username = $username;
 
         return $this;
@@ -93,8 +90,7 @@ class User implements UserInterface
      *
      * @return string 
      */
-    public function getUsername()
-    {
+    public function getUsername() {
         return $this->username;
     }
 
@@ -104,9 +100,8 @@ class User implements UserInterface
      * @param string $password
      * @return User
      */
-    public function setPassword($password)
-    {
-        $this->password = $password;
+    public function setPassword($password) {
+        $this->password = password_hash($password, PASSWORD_BCRYPT);
 
         return $this;
     }
@@ -116,24 +111,22 @@ class User implements UserInterface
      *
      * @return string 
      */
-    public function getPassword()
-    {
+    public function getPassword() {
         return $this->password;
     }
-    
-       public function __toString() {
+
+    public function __toString() {
         return $this->username;
     }
-    
-        public function getSalt() {
+
+    public function getSalt() {
         return null;
     }
-    
-    
+
     public function getRoles() {
         return array('ROLE_USER');
     }
-    
+
     public function eraseCredentials() {
         
     }
@@ -144,8 +137,7 @@ class User implements UserInterface
      * @param \Custom\AzureusBundle\Entity\Art $gallery
      * @return User
      */
-    public function addGallery(\Custom\AzureusBundle\Entity\Art $gallery)
-    {
+    public function addGallery(\Custom\AzureusBundle\Entity\Art $gallery) {
         $this->gallery[] = $gallery;
 
         return $this;
@@ -156,8 +148,7 @@ class User implements UserInterface
      *
      * @param \Custom\AzureusBundle\Entity\Art $gallery
      */
-    public function removeGallery(\Custom\AzureusBundle\Entity\Art $gallery)
-    {
+    public function removeGallery(\Custom\AzureusBundle\Entity\Art $gallery) {
         $this->gallery->removeElement($gallery);
     }
 
@@ -166,8 +157,7 @@ class User implements UserInterface
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getGallery()
-    {
+    public function getGallery() {
         return $this->gallery;
     }
 
@@ -177,8 +167,7 @@ class User implements UserInterface
      * @param \Custom\AzureusBundle\Entity\UserInfo $info
      * @return User
      */
-    public function setInfo(\Custom\AzureusBundle\Entity\UserInfo $info = null)
-    {
+    public function setInfo(\Custom\AzureusBundle\Entity\UserInfo $info = null) {
         $this->info = $info;
 
         return $this;
@@ -189,8 +178,7 @@ class User implements UserInterface
      *
      * @return \Custom\AzureusBundle\Entity\UserInfo 
      */
-    public function getInfo()
-    {
+    public function getInfo() {
         return $this->info;
     }
 
@@ -200,8 +188,7 @@ class User implements UserInterface
      * @param \Custom\AzureusBundle\Entity\Post $journal
      * @return User
      */
-    public function addJournal(\Custom\AzureusBundle\Entity\Post $journal)
-    {
+    public function addJournal(\Custom\AzureusBundle\Entity\Post $journal) {
         $this->journal[] = $journal;
 
         return $this;
@@ -212,8 +199,7 @@ class User implements UserInterface
      *
      * @param \Custom\AzureusBundle\Entity\Post $journal
      */
-    public function removeJournal(\Custom\AzureusBundle\Entity\Post $journal)
-    {
+    public function removeJournal(\Custom\AzureusBundle\Entity\Post $journal) {
         $this->journal->removeElement($journal);
     }
 
@@ -222,8 +208,7 @@ class User implements UserInterface
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getJournal()
-    {
+    public function getJournal() {
         return $this->journal;
     }
 
@@ -233,8 +218,7 @@ class User implements UserInterface
      * @param \Custom\AzureusBundle\Entity\Art $favourites
      * @return User
      */
-    public function addFavourite(\Custom\AzureusBundle\Entity\Art $favourites)
-    {
+    public function addFavourite(\Custom\AzureusBundle\Entity\Art $favourites) {
         $this->favourites[] = $favourites;
 
         return $this;
@@ -245,8 +229,7 @@ class User implements UserInterface
      *
      * @param \Custom\AzureusBundle\Entity\Art $favourites
      */
-    public function removeFavourite(\Custom\AzureusBundle\Entity\Art $favourites)
-    {
+    public function removeFavourite(\Custom\AzureusBundle\Entity\Art $favourites) {
         $this->favourites->removeElement($favourites);
     }
 
@@ -255,8 +238,8 @@ class User implements UserInterface
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getFavourites()
-    {
+    public function getFavourites() {
         return $this->favourites;
     }
+
 }
