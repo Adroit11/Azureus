@@ -5,6 +5,10 @@ custom_azureus_usertype:
 custom_azureus_admin_user:
     resource: "@CustomAzureusBundle/Resources/config/routing/user.yml"
     prefix:   /admin/user
+    
+custom_azureus_art:
+    resource: "@CustomAzureusBundle/Resources/config/routing/art.yml"
+    prefix:   /art
  
 custom_azureus_homepage:
     path:     /

@@ -1,0 +1,30 @@
+art:
+    path:     /
+    defaults: { _controller: "CustomAzureusBundle:Art:index" }
+
+art_show:
+    path:     /{id}/show
+    defaults: { _controller: "CustomAzureusBundle:Art:show" }
+
+art_new:
+    path:     /new
+    defaults: { _controller: "CustomAzureusBundle:Art:new" }
+
+art_create:
+    path:     /create
+    defaults: { _controller: "CustomAzureusBundle:Art:create" }
+    methods:  POST
+
+art_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "CustomAzureusBundle:Art:edit" }
+
+art_update:
+    path:     /{id}/update
+    defaults: { _controller: "CustomAzureusBundle:Art:update" }
+    methods:  [POST, PUT]
+
+art_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "CustomAzureusBundle:Art:delete" }
+    methods:  [POST, DELETE]

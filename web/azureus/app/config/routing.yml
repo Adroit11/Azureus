@@ -1,3 +1,6 @@
 custom_azureus:
     resource: "@CustomAzureusBundle/Resources/config/routing.yml"
     prefix:   /
+    
+_liip_imagine:
+    resource: "@LiipImagineBundle/Resources/config/routing.xml"

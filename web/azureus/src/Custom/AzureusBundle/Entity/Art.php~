@@ -55,10 +55,6 @@ class Art
      */
     private $date;
     
-    /**
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="owner")
-     */
-    private $comments;
     
     /**
      * @ORM\ManyToMany(targetEntity="User", mappedBy="favourites")
@@ -79,5 +75,131 @@ class Art
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return Art
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set path
+     *
+     * @param string $path
+     * @return Art
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+
+        return $this;
+    }
+
+    /**
+     * Get path
+     *
+     * @return string 
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     * @return Art
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime 
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * Set owner
+     *
+     * @param \Custom\AzureusBundle\Entity\User $owner
+     * @return Art
+     */
+    public function setOwner(\Custom\AzureusBundle\Entity\User $owner = null)
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * Get owner
+     *
+     * @return \Custom\AzureusBundle\Entity\User 
+     */
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+
+
+    /**
+     * Add favourites
+     *
+     * @param \Custom\AzureusBundle\Entity\User $favourites
+     * @return Art
+     */
+    public function addFavourite(\Custom\AzureusBundle\Entity\User $favourites)
+    {
+        $this->favourites[] = $favourites;
+
+        return $this;
+    }
+
+    /**
+     * Remove favourites
+     *
+     * @param \Custom\AzureusBundle\Entity\User $favourites
+     */
+    public function removeFavourite(\Custom\AzureusBundle\Entity\User $favourites)
+    {
+        $this->favourites->removeElement($favourites);
+    }
+
+    /**
+     * Get favourites
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFavourites()
+    {
+        return $this->favourites;
     }
 }

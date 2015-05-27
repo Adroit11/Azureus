@@ -22,7 +22,8 @@
         "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
         "incenteev/composer-parameter-handler": "~2.0",
 		"symfony/console": "2.4.*@dev",
-		"excelwebzone/recaptcha-bundle": "dev-master"
+		"excelwebzone/recaptcha-bundle": "dev-master",
+		"liip/imagine-bundle": "~1.2"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
