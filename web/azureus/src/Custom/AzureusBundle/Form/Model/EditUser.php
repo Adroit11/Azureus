@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 use Custom\AzureusBundle\Entity\User;
 
-class Registration
+class EditUser
 {
     /**
      * @Assert\Type(type="Custom\AzureusBundle\Entity\User")
@@ -20,17 +20,9 @@ class Registration
      */
     protected $user_info;
 
-    /**
-     * @Assert\NotBlank()
-     * @Assert\True()
-     */
-    protected $termsAccepted;
-
     public function setUser(User $user)
     {
         $this->user = $user;
-        $this->user_info->owner = $user;
-        $this->user->info = $user_info;
     }
 
     public function getUser()
@@ -41,16 +33,6 @@ class Registration
     public function getUserInfo()
     {
         return $this->user_info;
-    }
-
-    public function getTermsAccepted()
-    {
-        return $this->termsAccepted;
-    }
-
-    public function setTermsAccepted($termsAccepted)
-    {
-        $this->termsAccepted = (bool) $termsAccepted;
     }
 }
     

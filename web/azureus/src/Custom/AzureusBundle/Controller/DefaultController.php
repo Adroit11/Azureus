@@ -10,4 +10,8 @@ class DefaultController extends Controller
     {
         return $this->render('CustomAzureusBundle:Default:index.html.twig');
     }
+    
+    public function succesAction() {
+        return $this->render('CustomAzureusBundle:Default:succes.html.twig');
+    }
 }
