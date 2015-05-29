@@ -10,6 +10,7 @@
                 <th>Description</th>
                 <th>Path</th>
                 <th>Owner</th>
+                <th>Thumbail</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -25,6 +26,9 @@
                     {% else %}
                         {{ entity.owner.username }}
                     {% endif %}               
+                </td>
+                <td>
+                     <img src="{{ entity.WebPath | imagine_filter('my_thumb') }}" />
                 </td>
                 <td>
                 <ul>
