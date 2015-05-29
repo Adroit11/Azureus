@@ -28,3 +28,8 @@ art_delete:
     path:     /{id}/delete
     defaults: { _controller: "CustomAzureusBundle:Art:delete" }
     methods:  [POST, DELETE]
+
+art_comment_create:
+    path:     /comment/create/{art_id}
+    defaults: { _controller: "CustomAzureusBundle:Art:createComment" }
+    methods:  POST

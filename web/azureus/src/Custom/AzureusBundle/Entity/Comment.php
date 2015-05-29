@@ -2,17 +2,19 @@
 
 namespace Custom\AzureusBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
- * Post
- *
- * @ORM\Table()
+ * Comment
  * @ORM\Entity
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorColumn(name="discr", type="string")
+ * @ORM\DiscriminatorMap({"comment" = "Comment", "art_comment" = "ArtComment", "post_comment" = "PostComment"})
  */
-class Post
+class Comment 
 {
     /**
      * @var integer
@@ -24,30 +26,11 @@ class Post
     private $id;
     
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="journal")
-     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="gallery")
+     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $owner;
     
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="title", type="string", length=255)
-     */
-    private $title;
-    
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="content", type="text")
-     */
-    private $content;
-    
-    /**
-     * @ORM\OneToMany(targetEntity="PostComment", mappedBy="parent")
-     */
-    private $comments;
-        
     /**
      * @var \DateTime date
      * @Gedmo\Timestampable(on="create")
@@ -55,10 +38,12 @@ class Post
      */
     private $date;
     
-    function __construct() {
-        //$this->date = new \DateTime();
-        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="content", type="text")
+     */
+    private $content;
 
     /**
      * Get id
@@ -71,56 +56,10 @@ class Post
     }
 
     /**
-     * Set title
-     *
-     * @param string $title
-     * @return Post
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string 
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set content
-     *
-     * @param string $content
-     * @return Post
-     */
-    public function setContent($content)
-    {
-        $this->content = $content;
-
-        return $this;
-    }
-
-    /**
-     * Get content
-     *
-     * @return string 
-     */
-    public function getContent()
-    {
-        return $this->content;
-    }
-
-    /**
      * Set date
      *
      * @param \DateTime $date
-     * @return Post
+     * @return Comment
      */
     public function setDate($date)
     {
@@ -140,10 +79,33 @@ class Post
     }
 
     /**
+     * Set content
+     *
+     * @param string $content
+     * @return Comment
+     */
+    public function setContent($content)
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    /**
+     * Get content
+     *
+     * @return string 
+     */
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    /**
      * Set owner
      *
      * @param \Custom\AzureusBundle\Entity\User $owner
-     * @return Post
+     * @return Comment
      */
     public function setOwner(\Custom\AzureusBundle\Entity\User $owner = null)
     {

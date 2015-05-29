@@ -65,4 +65,13 @@
             </div>
         {% endfor %}
     </div>
+        
+        <h3>Last comments</h3>
+                {% for comment in comments %}
+                    object: {{ comment.parent.id }}
+                    date: {{ comment.date|date('Y-m-d H:i:s')  }}
+                    <p>
+                        {{ comment.content }}
+                    </p>
+            {% endfor %}
 {% endblock %}

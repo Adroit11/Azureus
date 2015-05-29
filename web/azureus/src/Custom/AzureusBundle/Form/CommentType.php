@@ -5,7 +5,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ArtType extends AbstractType
+class CommentType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -16,8 +16,7 @@ class ArtType extends AbstractType
         $is_admin = $options['is_admin'];
         
         $builder
-            ->add('description')
-            ->add('file');
+            ->add('content');
         
         if($is_admin) {
              $builder
@@ -31,7 +30,7 @@ class ArtType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Custom\AzureusBundle\Entity\Art',
+            'data_class' => 'Custom\AzureusBundle\Entity\Comment',
             'is_admin' => null
         ));
     }
@@ -40,6 +39,6 @@ class ArtType extends AbstractType
      */
     public function getName()
     {
-        return 'custom_azureusbundle_art';
+        return 'custom_azureusbundle_comment';
     }
 }

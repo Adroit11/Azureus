@@ -4,6 +4,7 @@ namespace Custom\AzureusBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Post
@@ -42,6 +43,10 @@ class Post
      */
     private $content;
     
+    /**
+     * @ORM\OneToMany(targetEntity="PostComment", mappedBy="parent")
+     */
+    private $comments;
         
     /**
      * @var \DateTime date
@@ -52,6 +57,7 @@ class Post
     
     function __construct() {
         //$this->date = new \DateTime();
+        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -154,5 +160,38 @@ class Post
     public function getOwner()
     {
         return $this->owner;
+    }
+
+    /**
+     * Add comments
+     *
+     * @param \Custom\AzureusBundle\Entity\PostComment $comments
+     * @return Post
+     */
+    public function addComment(\Custom\AzureusBundle\Entity\PostComment $comments)
+    {
+        $this->comments[] = $comments;
+
+        return $this;
+    }
+
+    /**
+     * Remove comments
+     *
+     * @param \Custom\AzureusBundle\Entity\PostComment $comments
+     */
+    public function removeComment(\Custom\AzureusBundle\Entity\PostComment $comments)
+    {
+        $this->comments->removeElement($comments);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }

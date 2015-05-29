@@ -133,11 +133,13 @@ class UserController extends Controller {
             $arts_criteria = array('owner' => $user->getId());
             $arts = $em->getRepository('CustomAzureusBundle:Art')->findBy($arts_criteria, ['date' => 'DESC'], 2);
             $posts = $em->getRepository('CustomAzureusBundle:Post')->findBy($arts_criteria, ['date' => 'DESC'], 2);
+            $comments = $em->getRepository('CustomAzureusBundle:ArtComment')->findBy($arts_criteria, ['date' => 'DESC'], 5);
 
             return $this->render('CustomAzureusBundle:User:profile.html.twig', array(
                         'user' => $user,
                         'arts' => $arts,
-                        'posts'=> $posts
+                        'posts'=> $posts,
+                        'comments'=> $comments
             ));
         }
     }

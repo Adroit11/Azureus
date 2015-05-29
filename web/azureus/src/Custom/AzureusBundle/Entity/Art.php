@@ -6,6 +6,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Doctrine\Common\Collections\ArrayCollection;
 
 
 /**
@@ -46,6 +47,11 @@ class Art
     private $owner;
     
     /**
+     * @ORM\OneToMany(targetEntity="ArtComment", mappedBy="parent")
+     */
+    private $comments;
+    
+    /**
      * @Assert\File(maxSize="6000000")
      */
     private $file;
@@ -67,6 +73,7 @@ class Art
     function __construct() {
         //$this->date = new \DateTime();
         $this->favourites = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -331,5 +338,38 @@ class Art
         if ($file) {
             unlink($file);
         }
+    }
+
+    /**
+     * Add comments
+     *
+     * @param \Custom\AzureusBundle\Entity\ArtComment $comments
+     * @return Art
+     */
+    public function addComment(\Custom\AzureusBundle\Entity\ArtComment $comments)
+    {
+        $this->comments[] = $comments;
+
+        return $this;
+    }
+
+    /**
+     * Remove comments
+     *
+     * @param \Custom\AzureusBundle\Entity\ArtComment $comments
+     */
+    public function removeComment(\Custom\AzureusBundle\Entity\ArtComment $comments)
+    {
+        $this->comments->removeElement($comments);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }

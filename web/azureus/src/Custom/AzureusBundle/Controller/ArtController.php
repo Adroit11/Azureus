@@ -8,6 +8,10 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Custom\AzureusBundle\Entity\Art;
 use Custom\AzureusBundle\Form\ArtType;
 
+use Custom\AzureusBundle\Entity\ArtComment;
+use Custom\AzureusBundle\Entity\Comment;
+use Custom\AzureusBundle\Form\CommentType;
+
 /**
  * Art controller.
  *
@@ -100,10 +104,15 @@ class ArtController extends Controller {
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Art entity.');
         }
+        
+        $comments_criteria = array('parent' => $entity->getId());
+        $comments = $em->getRepository('CustomAzureusBundle:ArtComment')->findBy($comments_criteria, ['date' => 'DESC'], 5);
+            
         $deleteForm = $this->createDeleteForm($id);
         return $this->render('CustomAzureusBundle:Art:show.html.twig', array(
                     'entity' => $entity,
                     'delete_form' => $deleteForm->createView(),
+                    'comments' => $comments,
         ));
     }
 
@@ -228,4 +237,65 @@ class ArtController extends Controller {
         ;
     }
 
+    
+    /**
+     * Creates a new Art entity.
+     *
+     */
+    public function createCommentAction(Request $request, $art_id) {
+        $entity = new ArtComment();
+        $form = $this->createCommentCreateForm($entity, array('art_id' => $art_id, 'is_admin' => $this->get('security.context')->isGranted('ROLE_ADMIN')));
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            // If we aren't admin then set us as an owner
+            if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                $entity->setOwner($this->get('security.context')->getToken()->getUser());
+            }
+            
+            $em = $this->getDoctrine()->getManager();
+
+            $parent = $em->getRepository('CustomAzureusBundle:Art')->find($art_id);
+            $entity->setParent($parent);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+            $em->flush();
+            return $this->redirect($this->generateUrl('art_show', array('id' => $art_id)));
+        }
+        
+        // To zmienic
+        return $this->render('CustomAzureusBundle:Comment:new.html.twig', array(
+                    'entity' => $entity,
+                    'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * Creates a form to create a Art entity.
+     *
+     * @param Art $entity The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createCommentCreateForm(ArtComment $entity, $options) {
+        $form = $this->createForm(new CommentType(), $entity, array(
+            'action' => $this->generateUrl('art_comment_create', array('art_id' => $options['art_id'])),
+            'method' => 'POST',
+        ));
+        $form->add('submit', 'submit', array('label' => 'Create'));
+        return $form;
+    }
+
+    /**
+     * Displays a form to create a new Art entity.
+     *
+     */
+    public function newCommentAction() {
+        $entity = new Comment();
+        $form = $this->createCreateForm($entity);
+        return $this->render('CustomAzureusBundle:Comment:new.html.twig', array(
+                    'entity' => $entity,
+                    'form' => $form->createView(),
+        ));
+    }
 }

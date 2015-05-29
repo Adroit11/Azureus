@@ -51,3 +51,4 @@ show_gallery:
 show_journal:
     path: /user/{username}/journal
     defaults: { _controller: "CustomAzureusBundle:User:showJournal" }
+    
