@@ -9,6 +9,10 @@ custom_azureus_admin_user:
 custom_azureus_art:
     resource: "@CustomAzureusBundle/Resources/config/routing/art.yml"
     prefix:   /art
+    
+custom_azureus_post:
+    resource: "@CustomAzureusBundle/Resources/config/routing/post.yml"
+    prefix:   /post
  
 custom_azureus_homepage:
     path:     /

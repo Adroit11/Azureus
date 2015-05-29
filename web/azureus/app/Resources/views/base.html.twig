@@ -44,7 +44,9 @@
                             <a href="{{ path('logout') }}">Logout</a>
                             <a href="{{ path('profile_edit') }}">Edit Profile</a>
                             <a href="{{ path('art_new') }}">Dodaj grafike</a>
+                            <a href="{{ path('post_new') }}">Dodaj post</a>
                             <a href="{{ path('art') }}">Galeria</a>
+                            <a href="{{ path('post') }}">Dziennik</a>
                     {% else %}
                         {% if app.request.get('_route') != 'login' %}
                             <br>

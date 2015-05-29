@@ -53,4 +53,14 @@
         {% endfor %}
         </table>
     </div>
+        
+    <div>
+        {% for post in posts %}
+            <div>
+                <h1>{{ post.title }}</h1>
+                <h3>{{ post.date|date('Y-m-d H:i:s') }}</h3>
+                <p>{{ post.content }}</p>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

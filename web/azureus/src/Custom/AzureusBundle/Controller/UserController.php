@@ -131,10 +131,12 @@ class UserController extends Controller {
         } else {
             $arts_criteria = array('owner' => $user->getId());
             $arts = $em->getRepository('CustomAzureusBundle:Art')->findBy($arts_criteria);
+            $posts = $em->getRepository('CustomAzureusBundle:Post')->findBy($arts_criteria);
 
             return $this->render('CustomAzureusBundle:User:profile.html.twig', array(
                         'user' => $user,
-                        'arts' => $arts
+                        'arts' => $arts,
+                        'posts'=> $posts
             ));
         }
     }

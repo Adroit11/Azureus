@@ -3,6 +3,7 @@
 namespace Custom\AzureusBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Post
@@ -43,14 +44,14 @@ class Post
     
         
     /**
-     * @var date
-     *
-     * @ORM\Column(name="date", type="date")
+     * @var \DateTime date
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="date", type="datetime")
      */
     private $date;
     
     function __construct() {
-        $this->date = new \DateTime();
+        //$this->date = new \DateTime();
     }
 
     /**

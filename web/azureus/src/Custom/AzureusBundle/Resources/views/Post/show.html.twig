@@ -1,0 +1,46 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Image</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ entity.title }}</td>
+            </tr>
+            <tr>
+                <th>Owner</th>
+                <td>
+                    {% if entity.owner is not defined %}
+                        Admin
+                    {% else %}
+                        {{ entity.owner.username }}
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Content</th>
+                <td> {{ entity.content }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('post') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('post_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}
