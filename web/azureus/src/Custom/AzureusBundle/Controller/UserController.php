@@ -115,6 +115,29 @@ class UserController extends Controller {
                     'delete_form' => $deleteForm->createView(),
         ));
     }
+    
+    /**
+     * Finds and displays a User entity.
+     *
+     */
+    public function showProfileAction($username) {
+        $em = $this->getDoctrine()->getManager();
+
+        $user_criteria = array('username' => $username);
+        $user = $em->getRepository('CustomAzureusBundle:User')->findOneBy($user_criteria);
+
+        if (!$user) {
+            throw $this->createNotFoundException('Unable to find User entity.');
+        } else {
+            $arts_criteria = array('owner' => $user->getId());
+            $arts = $em->getRepository('CustomAzureusBundle:Art')->findBy($arts_criteria);
+
+            return $this->render('CustomAzureusBundle:User:profile.html.twig', array(
+                        'user' => $user,
+                        'arts' => $arts
+            ));
+        }
+    }
 
     /**
      * Displays a form to edit an existing User entity.

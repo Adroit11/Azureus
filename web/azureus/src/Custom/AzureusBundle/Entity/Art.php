@@ -2,9 +2,11 @@
 
 namespace Custom\AzureusBundle\Entity;
 
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 
 /**
  * Art
@@ -39,7 +41,7 @@ class Art
     
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="gallery")
-     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $owner;
     
@@ -49,9 +51,9 @@ class Art
     private $file;
     
     /**
-     * @var date
-     *
-     * @ORM\Column(name="date", type="date")
+     * @var \DateTime date
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="date", type="datetime")
      */
     private $date;
     
@@ -63,7 +65,7 @@ class Art
 
 
     function __construct() {
-        $this->date = new \DateTime();
+        //$this->date = new \DateTime();
         $this->favourites = new \Doctrine\Common\Collections\ArrayCollection();
     }
 

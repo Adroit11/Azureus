@@ -1,0 +1,56 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>User</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ user.id }}</td>
+            </tr>
+            <tr>
+                <th>Username</th>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ user.info.name }}</td>
+            </tr>
+            <tr>
+                <th>Surname</th>
+                <td>{{ user.info.surname }}</td>
+            </tr>
+            <tr>
+                <th>Bio</th>
+                <td>{{ user.info.bio }}</td>
+            </tr>
+            <tr>
+                <th>Country</th>
+                <td>{{ user.info.country }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div>
+        <table>
+        {% for art in arts %}
+            <tr>
+                <td><a href="{{ path('art_show', { 'id': art.id }) }}">{{ art.id }}</a></td>
+                <td>{{ art.description }}</td>
+                <td>{{ art.path|slice(0,20) }}</td>
+                <td>   
+                    {% if art.owner is not defined %}
+                        Admin
+                    {% else %}
+                        {{ art.owner.username }}
+                    {% endif %}               
+                </td>
+                <td>
+                     <img src="{{ art.WebPath | imagine_filter('my_thumb') }}" />
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+{% endblock %}

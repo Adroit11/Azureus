@@ -24,7 +24,9 @@
                     {% if entity.owner is not defined %}
                         Admin
                     {% else %}
-                        {{ entity.owner.username }}
+                       <a href="{{ path('show_profile', { 'username': entity.owner.username }) }}">
+                           {{ entity.owner.username }}
+                        </a>
                     {% endif %}               
                 </td>
                 <td>

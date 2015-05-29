@@ -3,7 +3,7 @@ art:
     defaults: { _controller: "CustomAzureusBundle:Art:index" }
 
 art_show:
-    path:     /{id}/show
+    path:     /show/{id}
     defaults: { _controller: "CustomAzureusBundle:Art:show" }
 
 art_new:

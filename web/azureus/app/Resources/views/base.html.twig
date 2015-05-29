@@ -37,9 +37,14 @@
                     {% endif %}
                     
                     {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_USER')%}
-                            {{ app.user.username }} 
+                            
+                            <a href="{{ path('show_profile', { 'username': app.user.username }) }}">
+                                {{ app.user.username }} 
+                            </a>
                             <a href="{{ path('logout') }}">Logout</a>
                             <a href="{{ path('profile_edit') }}">Edit Profile</a>
+                            <a href="{{ path('art_new') }}">Dodaj grafike</a>
+                            <a href="{{ path('art') }}">Galeria</a>
                     {% else %}
                         {% if app.request.get('_route') != 'login' %}
                             <br>

@@ -35,3 +35,7 @@ profile_update:
 user_created:
     path:     /succes
     defaults: { _controller: "CustomAzureusBundle:Default:succes" }
+    
+show_profile:
+    path: /user/{username}
+    defaults: { _controller: "CustomAzureusBundle:User:showProfile" }

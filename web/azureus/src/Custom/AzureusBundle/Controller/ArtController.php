@@ -117,8 +117,10 @@ class ArtController extends Controller {
         $entity = $em->getRepository('CustomAzureusBundle:Art')->find($id);
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Art entity.');
+            return $this->render('CustomAzureusBundle:Fun:ydtmw.html.twig');
         }
 
+        //TODO O KURCZE MUSZE TO ZMIENIC
         if ($entity->getOwner()) {
             if ($this->getUser()->getId() === $entity->getOwner()->getId() OR $this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 $editForm = $this->createEditForm($entity);
@@ -128,9 +130,13 @@ class ArtController extends Controller {
                             'edit_form' => $editForm->createView(),
                             'delete_form' => $deleteForm->createView(),
                 ));
+            } else {
+                throw $this->createNotFoundException('Unsufficent permission.');
+                return $this->render('CustomAzureusBundle:Fun:ydtmw.html.twig');
             }
         } else {
             throw $this->createNotFoundException('Unsufficent permission.');
+            return $this->render('CustomAzureusBundle:Fun:ydtmw.html.twig');
         }
     }
 
@@ -153,6 +159,7 @@ class ArtController extends Controller {
             }
         } else {
             throw $this->createNotFoundException('Unsufficent permission.');
+            return $this->render('CustomAzureusBundle:Fun:ydtmw.html.twig');
         }
     }
 
