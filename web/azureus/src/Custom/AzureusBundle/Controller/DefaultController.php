@@ -9,13 +9,12 @@ class DefaultController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        // zrobic tutaj jak http://stackoverflow.com/a/25621040/3978701
-        $arts = $em->getRepository('CustomAzureusBundle:Art')->findBy([], ['date' => 'DESC']);
+        // Loading last 50 arts
+        // TODO ajax load on scrolling
+        $arts = $em->getRepository('CustomAzureusBundle:Art')->findBy([], ['date' => 'DESC'], 50);
         return $this->render('CustomAzureusBundle:Default:index.html.twig', array (
             'arts'=>$arts
         ));
-        
-        return $this->render('CustomAzureusBundle:Default:index.html.twig');
     }
     
     public function succesAction() {

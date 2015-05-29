@@ -31,7 +31,7 @@ class UserController extends Controller {
 
     /**
      * Creates a new User entity.
-     *
+     * 
      */
     public function createAction(Request $request) {
         $entity = new User();

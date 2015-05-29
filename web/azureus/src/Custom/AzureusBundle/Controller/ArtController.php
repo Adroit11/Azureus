@@ -22,6 +22,7 @@ class ArtController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
 
+        // If we are not an admin then load all of our arts
         if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
             $criteria = array('owner' => $this->getUser()->getId());
             $entities = $em->getRepository('CustomAzureusBundle:Art')->findBy($criteria);
@@ -43,14 +44,13 @@ class ArtController extends Controller {
         $form = $this->createCreateForm($entity, array('is_admin' => $this->get('security.context')->isGranted('ROLE_ADMIN')));
         $form->handleRequest($request);
         if ($form->isValid()) {
+            // If we aren't admin then set us as an owner
             if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 $entity->setOwner($this->get('security.context')->getToken()->getUser());
             }
 
             $em = $this->getDoctrine()->getManager();
-
             $entity->upload();
-
             $em->persist($entity);
             $em->flush();
             return $this->redirect($this->generateUrl('art_show', array('id' => $entity->getId())));
@@ -120,7 +120,7 @@ class ArtController extends Controller {
             return $this->render('CustomAzureusBundle:Fun:ydtmw.html.twig');
         }
 
-        //TODO O KURCZE MUSZE TO ZMIENIC
+        // TODO change this if statement to something more clear
         if ($entity->getOwner()) {
             if ($this->getUser()->getId() === $entity->getOwner()->getId() OR $this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 $editForm = $this->createEditForm($entity);
