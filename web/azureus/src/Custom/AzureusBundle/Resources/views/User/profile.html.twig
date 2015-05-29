@@ -33,6 +33,7 @@
     </table>
 
     <div>
+        <h2><a href="{{ path('show_gallery', { 'username': user.username }) }}"> Arts </a></h2>
         <table>
         {% for art in arts %}
             <tr>
@@ -55,10 +56,11 @@
     </div>
         
     <div>
+        <h2><a href="{{ path('show_journal', { 'username': user.username }) }}"> Posts </a> </h2>
         {% for post in posts %}
             <div>
-                <h1>{{ post.title }}</h1>
-                <h3>{{ post.date|date('Y-m-d H:i:s') }}</h3>
+                <h4>{{ post.title }}</h4>
+                <h5>{{ post.date|date('Y-m-d H:i:s') }}</h5>
                 <p>{{ post.content }}</p>
             </div>
         {% endfor %}

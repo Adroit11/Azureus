@@ -117,12 +117,13 @@ class UserController extends Controller {
     }
     
     /**
-     * Finds and displays a User entity.
-     *
+     * Finds and displays a User entity accesable for everyone.
+     * Displays last arts, last posts and basic info about user
      */
     public function showProfileAction($username) {
         $em = $this->getDoctrine()->getManager();
 
+        // Criteria for last 50 arts/posts from defined user
         $user_criteria = array('username' => $username);
         $user = $em->getRepository('CustomAzureusBundle:User')->findOneBy($user_criteria);
 
@@ -130,13 +131,63 @@ class UserController extends Controller {
             throw $this->createNotFoundException('Unable to find User entity.');
         } else {
             $arts_criteria = array('owner' => $user->getId());
-            $arts = $em->getRepository('CustomAzureusBundle:Art')->findBy($arts_criteria);
-            $posts = $em->getRepository('CustomAzureusBundle:Post')->findBy($arts_criteria);
+            $arts = $em->getRepository('CustomAzureusBundle:Art')->findBy($arts_criteria, ['date' => 'DESC'], 2);
+            $posts = $em->getRepository('CustomAzureusBundle:Post')->findBy($arts_criteria, ['date' => 'DESC'], 2);
 
             return $this->render('CustomAzureusBundle:User:profile.html.twig', array(
                         'user' => $user,
                         'arts' => $arts,
                         'posts'=> $posts
+            ));
+        }
+    }
+    
+    
+    /**
+     * Find and displays all arts from User
+     */
+    public function showGalleryAction($username) {
+        $em = $this->getDoctrine()->getManager();
+
+        // Criteria for last 50 arts from defined user
+        // To do load by scroll by ajax
+        $user_criteria = array('username' => $username);
+        $user = $em->getRepository('CustomAzureusBundle:User')->findOneBy($user_criteria);
+
+        if (!$user) {
+            throw $this->createNotFoundException('Unable to find User entity.');
+        } else {
+            $arts_criteria = array('owner' => $user->getId());
+            $arts = $em->getRepository('CustomAzureusBundle:Art')->findBy($arts_criteria, ['date' => 'DESC'], 50);
+
+            return $this->render('CustomAzureusBundle:User:gallery.html.twig', array(
+                        'user' => $user,
+                        'arts' => $arts,
+            ));
+        }
+    }
+    
+        
+    /**
+     * Find and displays all posts from User
+     */
+    public function showJournalAction($username) {
+        $em = $this->getDoctrine()->getManager();
+
+        // Criteria for last 50 posts from defined user
+        // To do load by scroll by ajax
+        $user_criteria = array('username' => $username);
+        $user = $em->getRepository('CustomAzureusBundle:User')->findOneBy($user_criteria);
+
+        if (!$user) {
+            throw $this->createNotFoundException('Unable to find User entity.');
+        } else {
+            $arts_criteria = array('owner' => $user->getId());
+            $posts = $em->getRepository('CustomAzureusBundle:Post')->findBy($arts_criteria, ['date' => 'DESC'], 50);
+
+            return $this->render('CustomAzureusBundle:User:journal.html.twig', array(
+                        'user' => $user,
+                        'posts' => $posts,
             ));
         }
     }

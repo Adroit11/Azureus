@@ -1,0 +1,19 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+     {% for post in posts %}
+        <div>
+            <h3>{{ post.title }}</h1>
+            <p>
+                <span>{{ post.date|date('Y-m-d H:i:s') }}</span>
+                |
+                <a href="{{ path('show_profile', { 'username': post.owner }) }}">
+                    {{ post.owner }}
+                </a>
+            </p>
+            <p>
+                {{ post.content }}
+            </p>
+        </div>
+    {% endfor %}
+{% endblock %}

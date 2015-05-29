@@ -43,3 +43,11 @@ user_created:
 show_profile:
     path: /user/{username}
     defaults: { _controller: "CustomAzureusBundle:User:showProfile" }
+    
+show_gallery:
+    path: /user/{username}/gallery
+    defaults: { _controller: "CustomAzureusBundle:User:showGallery" }
+    
+show_journal:
+    path: /user/{username}/journal
+    defaults: { _controller: "CustomAzureusBundle:User:showJournal" }
