@@ -9,6 +9,10 @@ use Custom\AzureusBundle\Entity\UserInfo;
 use Custom\AzureusBundle\Form\UserType;
 use Custom\AzureusBundle\Form\UserEditType;
 
+use Custom\AzureusBundle\Entity\PostComment;
+use Custom\AzureusBundle\Entity\ArtComment;
+use Custom\AzureusBundle\Entity\Comment;
+
 /**
  * User controller.
  *
@@ -133,7 +137,7 @@ class UserController extends Controller {
             $arts_criteria = array('owner' => $user->getId());
             $arts = $em->getRepository('CustomAzureusBundle:Art')->findBy($arts_criteria, ['date' => 'DESC'], 2);
             $posts = $em->getRepository('CustomAzureusBundle:Post')->findBy($arts_criteria, ['date' => 'DESC'], 2);
-            $comments = $em->getRepository('CustomAzureusBundle:ArtComment')->findBy($arts_criteria, ['date' => 'DESC'], 5);
+            $comments = $em->getRepository('CustomAzureusBundle:Comment')->findBy($arts_criteria, ['date' => 'DESC'], 5);
 
             return $this->render('CustomAzureusBundle:User:profile.html.twig', array(
                         'user' => $user,

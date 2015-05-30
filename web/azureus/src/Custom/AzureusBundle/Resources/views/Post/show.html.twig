@@ -30,17 +30,34 @@
         </tbody>
     </table>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('post') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('post_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+    <div>
+        <h3>Last comments</h3>
+        {% for comment in comments %}
+            author: {{ comment.owner }}
+            date: {{ comment.date|date('Y-m-d H:i:s')  }}
+            <p>
+                {{ comment.content }}
+            </p>
+        {% endfor %}
+    </div>
+    <div>
+        {{ render(controller(
+            'CustomAzureusBundle:Post:createComment',
+            { 'post_id': entity.id }
+        )) }}
+    </div>
+
+    <ul class="record_actions">
+        <li>
+            <a href="{{ path('post') }}">
+                Back to the list
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('post_edit', { 'id': entity.id }) }}">
+                Edit
+            </a>
+        </li>
+        <li>{{ form(delete_form) }}</li>
+    </ul>
 {% endblock %}

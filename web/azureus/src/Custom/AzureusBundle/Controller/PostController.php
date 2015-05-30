@@ -7,6 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Custom\AzureusBundle\Entity\Post;
 use Custom\AzureusBundle\Form\PostType;
 
+use Custom\AzureusBundle\Entity\PostComment;
+use Custom\AzureusBundle\Entity\Comment;
+use Custom\AzureusBundle\Form\CommentType;
 /**
  * Post controller.
  *
@@ -97,10 +100,15 @@ class PostController extends Controller {
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Post entity.');
         }
+        
+        $comments_criteria = array('parent' => $entity->getId());
+        $comments = $em->getRepository('CustomAzureusBundle:PostComment')->findBy($comments_criteria, ['date' => 'DESC'], 5);
+        
         $deleteForm = $this->createDeleteForm($id);
         return $this->render('CustomAzureusBundle:Post:show.html.twig', array(
                     'entity' => $entity,
                     'delete_form' => $deleteForm->createView(),
+                    'comments' => $comments,
         ));
     }
 
@@ -225,4 +233,64 @@ class PostController extends Controller {
         ;
     }
 
+    /**
+     * Creates a new Post entity.
+     *
+     */
+    public function createCommentAction(Request $request, $post_id) {
+        $entity = new PostComment();
+        $form = $this->createCommentCreateForm($entity, array('post_id' => $post_id, 'is_admin' => $this->get('security.context')->isGranted('ROLE_ADMIN')));
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            // If we aren't admin then set us as an owner
+            if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                $entity->setOwner($this->get('security.context')->getToken()->getUser());
+            }
+            
+            $em = $this->getDoctrine()->getManager();
+
+            $parent = $em->getRepository('CustomAzureusBundle:Post')->find($post_id);
+            $entity->setParent($parent);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+            $em->flush();
+            return $this->redirect($this->generateUrl('post_show', array('id' => $post_id)));
+        }
+        
+        // To zmienic
+        return $this->render('CustomAzureusBundle:Comment:new.html.twig', array(
+                    'entity' => $entity,
+                    'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * Creates a form to create a Post entity.
+     *
+     * @param Post $entity The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createCommentCreateForm(PostComment $entity, $options) {
+        $form = $this->createForm(new CommentType(), $entity, array(
+            'action' => $this->generateUrl('post_comment_create', array('post_id' => $options['post_id'])),
+            'method' => 'POST',
+        ));
+        $form->add('submit', 'submit', array('label' => 'Create'));
+        return $form;
+    }
+
+    /**
+     * Displays a form to create a new Post entity.
+     *
+     */
+    public function newCommentAction() {
+        $entity = new Comment();
+        $form = $this->createCreateForm($entity);
+        return $this->render('CustomAzureusBundle:Comment:new.html.twig', array(
+                    'entity' => $entity,
+                    'form' => $form->createView(),
+        ));
+    }
 }

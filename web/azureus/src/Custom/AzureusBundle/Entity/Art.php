@@ -372,4 +372,9 @@ class Art
     {
         return $this->comments;
     }
+    
+    public function getClassName()
+    {
+        return (new \ReflectionClass($this))->getShortName();
+    }
 }

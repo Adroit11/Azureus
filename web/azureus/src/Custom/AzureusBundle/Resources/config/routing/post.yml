@@ -28,3 +28,8 @@ post_delete:
     path:     /{id}/delete
     defaults: { _controller: "CustomAzureusBundle:Post:delete" }
     methods:  [POST, DELETE]
+
+post_comment_create:
+    path:     /comment/create/{post_id}
+    defaults: { _controller: "CustomAzureusBundle:Post:createComment" }
+    methods:  POST
