@@ -27,7 +27,7 @@ class Comment
     
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="gallery")
-     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     private $owner;
     

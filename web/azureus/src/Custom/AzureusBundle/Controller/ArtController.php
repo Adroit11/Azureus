@@ -215,8 +215,16 @@ class ArtController extends Controller {
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Art entity.');
             }
-            $em->remove($entity);
-            $em->flush();
+            if ($entity->getOwner()) {
+                if ($this->getUser()->getId() === $entity->getOwner()->getId() OR $this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                    $em->remove($entity);
+                    $em->flush();
+                }
+                else {
+                    throw $this->createNotFoundException('Unsufficent permission.');
+                    return $this->render('CustomAzureusBundle:Fun:ydtmw.html.twig');
+                }
+            }
         }
         return $this->redirect($this->generateUrl('art'));
     }

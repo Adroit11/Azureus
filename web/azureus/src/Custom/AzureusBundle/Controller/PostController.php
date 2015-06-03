@@ -211,8 +211,16 @@ class PostController extends Controller {
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Post entity.');
             }
-            $em->remove($entity);
-            $em->flush();
+            if ($entity->getOwner()) {
+                if ($this->getUser()->getId() === $entity->getOwner()->getId() OR $this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                    $em->remove($entity);
+                    $em->flush();
+                }
+                else {
+                    throw $this->createNotFoundException('Unsufficent permission.');
+                    return $this->render('CustomAzureusBundle:Fun:ydtmw.html.twig');
+                }
+            }
         }
         return $this->redirect($this->generateUrl('post'));
     }
@@ -292,5 +300,48 @@ class PostController extends Controller {
                     'entity' => $entity,
                     'form' => $form->createView(),
         ));
+    }
+    
+    /**
+     * Deletes a PostComment entity.
+     *
+     */
+    public function deleteCommentAction(Request $request, $id) {
+        $form = $this->createDeleteForm($id);
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $entity = $em->getRepository('CustomAzureusBundle:PostComment')->find($id);
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find comment entity.');
+            }
+            if ($entity->getOwner()) {
+                if ($this->getUser()->getId() === $entity->getOwner()->getId() OR $this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                    $em->remove($entity);
+                    $em->flush();
+                }
+                else {
+                    throw $this->createNotFoundException('Unsufficent permission.');
+                    return $this->render('CustomAzureusBundle:Fun:ydtmw.html.twig');
+                }
+            }
+        }
+        return $this->redirect($this->generateUrl('post'));
+    }
+
+    /**
+     * Creates a form to delete a PostComment entity by id.
+     *
+     * @param mixed $id The entity id
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createCommentDeleteForm($id) {
+        return $this->createFormBuilder()
+                        ->setAction($this->generateUrl('post_comment_delete', array('id' => $id)))
+                        ->setMethod('DELETE')
+                        ->add('submit', 'submit', array('label' => 'Delete'))
+                        ->getForm()
+        ;
     }
 }

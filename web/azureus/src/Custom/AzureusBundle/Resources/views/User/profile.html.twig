@@ -68,17 +68,19 @@
         
         <h3>Last comments</h3>
                 {% for comment in comments %}
+                {% if comment.parent is not null %}
                     object: {{ comment.parent.id }}
                     type: {{ comment.parent.className }}
                     date: {{ comment.date|date('Y-m-d H:i:s')  }}
                     
-                    {% if comment.parent.className == 'Post' %} 
-                        <a href="{{ path('post_show', { 'id': comment.parent.id }) }}"> Post </a>
-                    {% elseif comment.parent.className == 'Art' %}
-                        <a href="{{ path('art_show', { 'id': comment.parent.id }) }}"> Art </a>
-                    {% endif %}
+                        {% if comment.parent.className == 'Post' %} 
+                            <a href="{{ path('post_show', { 'id': comment.parent.id }) }}"> Post </a>
+                        {% elseif comment.parent.className == 'Art' %}
+                            <a href="{{ path('art_show', { 'id': comment.parent.id }) }}"> Art </a>
+                        {% endif %}
                     <p>
                         {{ comment.content }}
                     </p>
+                {% endif %}
             {% endfor %}
 {% endblock %}

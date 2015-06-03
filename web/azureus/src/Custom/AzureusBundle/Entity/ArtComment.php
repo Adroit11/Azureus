@@ -12,8 +12,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class ArtComment extends Comment {
     
      /**
-     * @ORM\ManyToOne(targetEntity="Art", inversedBy="comments")
-     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\ManyToOne(targetEntity="Art", inversedBy="comments", cascade={"remove"})
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     private $parent;
 
