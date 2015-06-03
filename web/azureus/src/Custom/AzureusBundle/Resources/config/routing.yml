@@ -21,17 +21,17 @@ custom_azureus_homepage:
 login:
     path:     /login
     defaults: { _controller: CustomAzureusBundle:Security:login }
-    
+
 login_check:
     path:     /login_check
 
 logout:
     pattern:  /logout
-      
+
 profile_edit:
     path:     /edit_profile
     defaults: { _controller: "CustomAzureusBundle:User:editProfile" }
-    
+
 profile_update:
     path:     /edit_profile/update
     defaults: { _controller: "CustomAzureusBundle:User:profileUpdate" }
@@ -39,16 +39,23 @@ profile_update:
 user_created:
     path:     /succes
     defaults: { _controller: "CustomAzureusBundle:Default:succes" }
-    
+
 show_profile:
     path: /user/{username}
     defaults: { _controller: "CustomAzureusBundle:User:showProfile" }
-    
+
 show_gallery:
     path: /user/{username}/gallery
     defaults: { _controller: "CustomAzureusBundle:User:showGallery" }
-    
+
 show_journal:
     path: /user/{username}/journal
     defaults: { _controller: "CustomAzureusBundle:User:showJournal" }
-    
+
+change_passwd:
+    path: /change_passwd
+    defaults: { _controller: "CustomAzureusBundle:ChangePassword:changePasswd" }
+
+change_passwd_success:
+    path: /succes
+    defaults: { _controller: "CustomAzureusBundle:ChangePassword:succes" }
