@@ -27,6 +27,25 @@
                 <th>Path</th>
                 <td> <img src="{{ asset(entity.WebPath) }}" /> </td>
             </tr>
+            <tr>
+                <th>Add to favs</th>
+                <td>
+                 {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_USER')%}
+                    {% if favourited %}
+                        <a href="{{ path('remove_fav', { 'art_id': entity.id, 'user_id': app.user.id })}}">Remove from favs</a>
+                    {% elseif not favourited %}
+                        <a href="{{ path('add_fav', { 'art_id': entity.id, 'user_id': app.user.id })}}">Add to favs</a>
+                    {% endif %}
+                {% endif %}
+
+                </td>
+            </tr>
+            {% for user in entity.favourites %}
+            <tr>
+                <th>Who favourites:</th>
+                <td> {{ user.username }} </td>
+            </tr>
+            {% endfor %}
         </tbody>
     </table>
             <div>

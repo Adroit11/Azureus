@@ -105,14 +105,23 @@ class ArtController extends Controller {
             throw $this->createNotFoundException('Unable to find Art entity.');
         }
         
+        $user = $this->getUser();
+
         $comments_criteria = array('parent' => $entity->getId());
         $comments = $em->getRepository('CustomAzureusBundle:ArtComment')->findBy($comments_criteria, ['date' => 'DESC'], 5);
-            
+        $favourited = false;
+
+        foreach ($entity->getFavourites() as $fav ) {
+            if($fav === $user)
+                $favourited = true;
+        }
+
         $deleteForm = $this->createDeleteForm($id);
         return $this->render('CustomAzureusBundle:Art:show.html.twig', array(
                     'entity' => $entity,
                     'delete_form' => $deleteForm->createView(),
                     'comments' => $comments,
+                    'favourited' => $favourited,
         ));
     }
 
@@ -305,5 +314,48 @@ class ArtController extends Controller {
                     'entity' => $entity,
                     'form' => $form->createView(),
         ));
+    }
+
+    public function addFavouriteAction(Request $request, $art_id, $user_id) {
+        $logged_user = $this->getUser();
+        if($user_id == $logged_user->getId() ) {
+            try {
+            $em = $this->getDoctrine()->getManager();
+            $art = $em->getRepository('CustomAzureusBundle:Art')->find($art_id);
+            $user = $em->getRepository('CustomAzureusBundle:User')->find($user_id);
+            $user->addFavourite($art);
+            $em->flush();
+            }
+            catch(\Exception $e) {
+                throw $this->createNotFoundException('You already like this.');
+            }
+            return $this->showAction($art_id);
+        }
+        else {
+                throw $this->createNotFoundException('Unsufficent permission.');
+                return $this->render('CustomAzureusBundle:Fun:ydtmw.html.twig');
+        }
+    }
+
+    public function removeFavouriteAction(Request $request, $art_id, $user_id) {
+        $logged_user = $this->getUser();
+
+        if($user_id == $logged_user->getId() ) {
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $art = $em->getRepository('CustomAzureusBundle:Art')->find($art_id);
+                $user = $em->getRepository('CustomAzureusBundle:User')->find($user_id);
+                $user->removeFavourite($art);
+                $em->flush();
+            }
+            catch(\Exception $e) {
+                throw $this->createNotFoundException('You dont like this this.');
+            }
+            return $this->showAction($art_id);
+        }
+        else {
+                throw $this->createNotFoundException('Unsufficent permission.');
+                return $this->render('CustomAzureusBundle:Fun:ydtmw.html.twig');
+        }
     }
 }

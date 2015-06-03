@@ -76,5 +76,6 @@ security:
         - { path: /art/, roles: ROLE_USER }
         - { path: /post/show, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: /post/, roles: ROLE_USER }
+        - { path: /fav/, roles: ROLE_USER }
         - { path: /.*, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         

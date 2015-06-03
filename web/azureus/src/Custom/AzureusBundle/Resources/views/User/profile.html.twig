@@ -83,4 +83,9 @@
                     </p>
                 {% endif %}
             {% endfor %}
+
+        <h3>Favourites</h3>
+        {% for art in user.favourites %}
+             <a href="{{ path('art_show', { 'id': art.id }) }}"> {{ art.description }} </a>
+        {% endfor %}
 {% endblock %}

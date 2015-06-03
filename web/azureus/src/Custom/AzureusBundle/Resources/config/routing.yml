@@ -53,9 +53,17 @@ show_journal:
     defaults: { _controller: "CustomAzureusBundle:User:showJournal" }
 
 change_passwd:
-    path: /change_passwd
+    path: /edit_profile/change_passwd
     defaults: { _controller: "CustomAzureusBundle:ChangePassword:changePasswd" }
 
 change_passwd_success:
-    path: /succes
+    path: /edit_profile/succes
     defaults: { _controller: "CustomAzureusBundle:ChangePassword:succes" }
+
+add_fav: 
+    path: /fav/{art_id}/{user_id}
+    defaults: {_controller: "CustomAzureusBundle:Art:addFavourite" }
+
+remove_fav: 
+    path: /fav/{art_id}/{user_id}/remove
+    defaults: {_controller: "CustomAzureusBundle:Art:removeFavourite" }
