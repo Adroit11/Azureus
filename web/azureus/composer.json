@@ -1,5 +1,5 @@
 {
-    "name": "Karol/azureus",
+ "name": "Karol/azureus",
     "license": "proprietary",
     "type": "project",
     "autoload": {
@@ -24,10 +24,13 @@
 		"symfony/console": "2.4.*@dev",
 		"excelwebzone/recaptcha-bundle": "dev-master",
 		"liip/imagine-bundle": "~1.2",
-		"stof/doctrine-extensions-bundle": "~1.1@dev"
+		"stof/doctrine-extensions-bundle": "~1.1@dev",
+		    "silex/silex": "~1.1",
+    "monolog/monolog": "~1.7"
     },
     "require-dev": {
-        "sensio/generator-bundle": "~2.3"
+        "sensio/generator-bundle": "~2.3",
+		"heroku/heroku-buildpack-php": "*"
     },
     "scripts": {
         "post-root-package-install": [
