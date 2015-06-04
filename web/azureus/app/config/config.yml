@@ -117,7 +117,7 @@ liip_imagine:
         my_thumb:
             quality: 75
             filters:
-                thumbnail: { size: [120, 90], mode: outbound }
+                thumbnail: { size: [100, 100], mode: outbound }
                 
 stof_doctrine_extensions:
     orm:

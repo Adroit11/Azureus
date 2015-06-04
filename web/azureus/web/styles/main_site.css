@@ -1,0 +1,120 @@
+header
+{
+	padding-top: 25px; 	
+	margin-right: 20px;	
+	margin-left: 20px;	
+}
+
+header h1
+{
+	float: left;
+}
+
+header hr
+{
+	width: 100%;
+	overflow: auto;
+}
+
+nav ul li {
+	list-style: none;
+}
+
+#logo
+{
+	float: right;
+	width: 100px;
+	padding-bottom: 25px;
+}
+
+
+/*NAVIGATION*/
+#content, #nav_search, #nav_languages
+{
+	height: 1000px;
+	padding: 10px 10px;
+	background-color: white;
+}
+
+#nav_search
+{
+	float: left;
+	width: 200px;
+	border-right: #e7e7e7 3px solid;
+}
+
+#nav_languages
+{
+	float: right;
+	width: 200px;
+	border-left: #e7e7e7 3px solid;
+}
+
+
+#content
+{
+	width: 100%;
+}
+
+#content nav
+{
+	background-color: #f8f8f8;
+	min-height: 50px;
+	width: 100%;
+}
+
+#pagination 
+{
+  	position: fixed;
+  	bottom: 0;
+  	left: 45%;
+}
+
+.miniature
+{
+	float: left;
+	display: inline;
+	padding: 5px 5px;	
+	border: #e7e7e7 1px solid;
+	border-radius: 5px;
+	width: 145px;
+	margin: 10px 10px;
+}
+
+.miniature h3
+{
+	font-size: 12px;
+	word-wrap: break-word;
+	color: #333;
+}
+
+.miniature img
+{	
+	margin: 5px 5px;
+	width: 100px;
+}
+
+.miniature:hover
+{
+	background-color: #f8f8f8;
+}
+
+.miniature a:hover
+{
+	text-decoration: none;
+}
+
+footer
+{
+	font-size: 15px;
+	padding: 5px 50px;
+	font-size: 15px;
+	min-height: 100px;
+	background-color: #e7e7e7;
+}
+
+footer p
+{
+	line-height: 90px;
+}
+
