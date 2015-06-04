@@ -1,0 +1,30 @@
+usertype:
+    path:     /
+    defaults: { _controller: "CustomAzureusBundle:UserInfo:index" }
+
+usertype_show:
+    path:     /{id}/show
+    defaults: { _controller: "CustomAzureusBundle:UserInfo:show" }
+
+usertype_new:
+    path:     /new
+    defaults: { _controller: "CustomAzureusBundle:UserInfo:new" }
+
+usertype_create:
+    path:     /create
+    defaults: { _controller: "CustomAzureusBundle:UserInfo:create" }
+    methods:  POST
+
+usertype_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "CustomAzureusBundle:UserInfo:edit" }
+
+usertype_update:
+    path:     /{id}/update
+    defaults: { _controller: "CustomAzureusBundle:UserInfo:update" }
+    methods:  [POST, PUT]
+
+usertype_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "CustomAzureusBundle:UserInfo:delete" }
+    methods:  [POST, DELETE]

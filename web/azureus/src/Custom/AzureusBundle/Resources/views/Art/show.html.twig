@@ -1,0 +1,81 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Image</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ entity.description }}</td>
+            </tr>
+            <tr>
+                <th>Owner</th>
+                <td>
+                    {% if entity.owner is not defined %}
+                        Admin
+                    {% else %}
+                        {{ entity.owner.username }}
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Path</th>
+                <td> <img src="{{ asset(entity.WebPath) }}" /> </td>
+            </tr>
+            <tr>
+                <th>Add to favs</th>
+                <td>
+                 {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_USER')%}
+                    {% if favourited %}
+                        <a href="{{ path('remove_fav', { 'art_id': entity.id, 'user_id': app.user.id })}}">Remove from favs</a>
+                    {% elseif not favourited %}
+                        <a href="{{ path('add_fav', { 'art_id': entity.id, 'user_id': app.user.id })}}">Add to favs</a>
+                    {% endif %}
+                {% endif %}
+
+                </td>
+            </tr>
+            {% for user in entity.favourites %}
+            <tr>
+                <th>Who favourites:</th>
+                <td> {{ user.username }} </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+            <div>
+                <h3>Last comments</h3>
+                {% for comment in comments %}
+                    author: {{ comment.owner }}
+                    date: {{ comment.date|date('Y-m-d H:i:s')  }}
+                    <p>
+                        {{ comment.content }}
+                    </p>
+            {% endfor %}
+            </div>
+            <div>
+               {{ render(controller(
+                    'CustomAzureusBundle:Art:createComment',
+                    { 'art_id': entity.id }
+                )) }}
+            </div>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('art') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('art_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+     {% for art in arts %}
+        <div class="art">
+            <h3>{{ art.description }}</h1>
+            <p>
+                <span>{{ art.date|date('Y-m-d H:i:s') }}</span>
+                |
+                <a href="{{ path('show_profile', { 'username': art.owner }) }}">
+                    {{ art.owner }}
+                </a>
+            </p>
+            <p><a href="{{ path('art_show', {id: art.id})}}" ><img class="art" src="{{ art.WebPath | imagine_filter('my_thumb') }}" /> </a></p>
+        </div>
+    {% endfor %}
+{% endblock %}

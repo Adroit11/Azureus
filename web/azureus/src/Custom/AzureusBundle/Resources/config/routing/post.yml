@@ -1,0 +1,40 @@
+post:
+    path:     /
+    defaults: { _controller: "CustomAzureusBundle:Post:index" }
+
+post_show:
+    path:     /show/{id}
+    defaults: { _controller: "CustomAzureusBundle:Post:show" }
+
+post_new:
+    path:     /new
+    defaults: { _controller: "CustomAzureusBundle:Post:new" }
+
+post_create:
+    path:     /create
+    defaults: { _controller: "CustomAzureusBundle:Post:create" }
+    methods:  POST
+
+post_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "CustomAzureusBundle:Post:edit" }
+
+post_update:
+    path:     /{id}/update
+    defaults: { _controller: "CustomAzureusBundle:Post:update" }
+    methods:  [POST, PUT]
+
+post_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "CustomAzureusBundle:Post:delete" }
+    methods:  [POST, DELETE]
+
+post_comment_create:
+    path:     /comment/create/{post_id}
+    defaults: { _controller: "CustomAzureusBundle:Post:createComment" }
+    methods:  POST
+    
+post_comment_delete:
+    path:     /comment/{id}/delete
+    defaults: { _controller: "CustomAzureusBundle:Post:deleteComment" }
+    methods:  [POST, DELETE, GET]

@@ -1,0 +1,4 @@
+services:
+#    custom_azureus.example:
+#        class: Custom\AzureusBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

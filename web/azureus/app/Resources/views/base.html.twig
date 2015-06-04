@@ -1,0 +1,65 @@
+{#<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>
+#}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}
+            <link href="{{ asset('styles/main.css')}}" type="text/css" rel="stylesheet" />
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
+        <div id="container">
+            <div id="header">
+                <p id="logo">Azureus</p>
+                <div id="nav">
+                    <a href="{{ path('custom_azureus_homepage')}}">Home</a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        | <a href="{{ path('admin_user') }}">Users</a> |
+{#                    {% elseif is_granted('ROLE_USER') %}
+                        | <a href="{{ path('cms_page') }}">Add art</a> |
+                        <a href="{{ path('cms_image') }}">Add post</a> |#}
+                    {% endif %}
+                    
+                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_USER')%}
+                            
+                            <a href="{{ path('show_profile', { 'username': app.user.username }) }}">
+                                {{ app.user.username }} 
+                            </a>
+                            <a href="{{ path('logout') }}">Logout</a>
+                            <a href="{{ path('change_passwd') }}">Change password</a>
+                            <a href="{{ path('profile_edit') }}">Edit Profile</a>
+                            <a href="{{ path('art_new') }}">Dodaj grafike</a>
+                            <a href="{{ path('post_new') }}">Dodaj post</a>
+                            <a href="{{ path('art') }}">Galeria</a>
+                            <a href="{{ path('post') }}">Dziennik</a>
+                    {% else %}
+                        {% if app.request.get('_route') != 'login' %}
+                            <br>
+                            {{ render(controller('CustomAzureusBundle:Security:loginWidget')) }}
+                            <a href="{{ path('admin_user_new')}}">Register</a>
+                        {% endif %}
+                    {% endif %}
+                         
+                </div>
+            </div>
+            {% block body %}{% endblock %}
+            {% block javascripts %}{% endblock %}
+        </div>
+    </body>
+</html>

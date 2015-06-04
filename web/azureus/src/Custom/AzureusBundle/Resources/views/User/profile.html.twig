@@ -1,0 +1,91 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>User</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ user.id }}</td>
+            </tr>
+            <tr>
+                <th>Username</th>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ user.info.name }}</td>
+            </tr>
+            <tr>
+                <th>Surname</th>
+                <td>{{ user.info.surname }}</td>
+            </tr>
+            <tr>
+                <th>Bio</th>
+                <td>{{ user.info.bio }}</td>
+            </tr>
+            <tr>
+                <th>Country</th>
+                <td>{{ user.info.country }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div>
+        <h2><a href="{{ path('show_gallery', { 'username': user.username }) }}"> Arts </a></h2>
+        <table>
+        {% for art in arts %}
+            <tr>
+                <td><a href="{{ path('art_show', { 'id': art.id }) }}">{{ art.id }}</a></td>
+                <td>{{ art.description }}</td>
+                <td>{{ art.path|slice(0,20) }}</td>
+                <td>   
+                    {% if art.owner is not defined %}
+                        Admin
+                    {% else %}
+                        {{ art.owner.username }}
+                    {% endif %}               
+                </td>
+                <td>
+                     <img src="{{ art.WebPath | imagine_filter('my_thumb') }}" />
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+        
+    <div>
+        <h2> <a href="{{ path('show_journal', { 'username': user.username }) }}"> Posts </a> </h2>
+        {% for post in posts %}
+            <div>
+                <h4>{{ post.title }}</h4>
+                <h5>{{ post.date|date('Y-m-d H:i:s') }}</h5>
+                <p>{{ post.content }}</p>
+            </div>
+        {% endfor %}
+    </div>
+        
+        <h3>Last comments</h3>
+                {% for comment in comments %}
+                {% if comment.parent is not null %}
+                    object: {{ comment.parent.id }}
+                    type: {{ comment.parent.className }}
+                    date: {{ comment.date|date('Y-m-d H:i:s')  }}
+                    
+                        {% if comment.parent.className == 'Post' %} 
+                            <a href="{{ path('post_show', { 'id': comment.parent.id }) }}"> Post </a>
+                        {% elseif comment.parent.className == 'Art' %}
+                            <a href="{{ path('art_show', { 'id': comment.parent.id }) }}"> Art </a>
+                        {% endif %}
+                    <p>
+                        {{ comment.content }}
+                    </p>
+                {% endif %}
+            {% endfor %}
+
+        <h3>Favourites</h3>
+        {% for art in user.favourites %}
+             <a href="{{ path('art_show', { 'id': art.id }) }}"> {{ art.description }} </a>
+        {% endfor %}
+{% endblock %}
