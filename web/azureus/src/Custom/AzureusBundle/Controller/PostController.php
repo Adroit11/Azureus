@@ -105,10 +105,18 @@ class PostController extends Controller {
         $comments = $em->getRepository('CustomAzureusBundle:PostComment')->findBy($comments_criteria, ['date' => 'DESC'], 5);
         
         $deleteForm = $this->createDeleteForm($id);
+
+        $deleteCommentForms = array();
+
+        foreach ($comments as $comment) {
+                $deleteCommentForms[$comment->getId()] = $this->createCommentDeleteForm($comment->getId())->createView();
+        }
+
         return $this->render('CustomAzureusBundle:Post:show.html.twig', array(
                     'entity' => $entity,
                     'delete_form' => $deleteForm->createView(),
                     'comments' => $comments,
+                    'delete_comments_form' => $deleteCommentForms
         ));
     }
 
@@ -309,9 +317,11 @@ class PostController extends Controller {
     public function deleteCommentAction(Request $request, $id) {
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
+        $post_id = null;
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('CustomAzureusBundle:PostComment')->find($id);
+            $post_id = $entity->getParent()->getId();
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find comment entity.');
             }
@@ -326,7 +336,7 @@ class PostController extends Controller {
                 }
             }
         }
-        return $this->redirect($this->generateUrl('post'));
+        return $this->redirect($this->generateUrl('post_show', array('id' => $post_id)));
     }
 
     /**

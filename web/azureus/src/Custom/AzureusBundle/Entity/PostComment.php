@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class PostComment extends Comment {   
     
      /**
-     * @ORM\ManyToOne(targetEntity="Post", inversedBy="comments", cascade={"remove"})
+     * @ORM\ManyToOne(targetEntity="Post", inversedBy="comments")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     private $parent;

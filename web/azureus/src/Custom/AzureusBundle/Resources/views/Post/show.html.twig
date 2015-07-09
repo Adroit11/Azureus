@@ -35,9 +35,15 @@
         {% for comment in comments %}
             author: {{ comment.owner }}
             date: {{ comment.date|date('Y-m-d H:i:s')  }}
+            {% if app.user != null %}
+                {% if app.user.id == comment.owner.id %}
+                    delete: {{ comment.id }}
+                    {{ form(delete_comments_form[comment.id]) }}
+                {% endif %}
+            {% endif %}
             <p>
                 {{ comment.content }}
-            </p>                    
+            </p>
         {% endfor %}
     </div>
     <div>
