@@ -33,3 +33,8 @@ art_comment_create:
     path:     /comment/create/{art_id}
     defaults: { _controller: "CustomAzureusBundle:Art:createComment" }
     methods:  POST
+
+art_comment_delete:
+    path:     /comment/{id}/delete
+    defaults: { _controller: "CustomAzureusBundle:Art:deleteComment" }
+    methods:  [POST, DELETE, GET]
