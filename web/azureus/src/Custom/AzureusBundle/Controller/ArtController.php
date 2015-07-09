@@ -104,7 +104,7 @@ class ArtController extends Controller {
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Art entity.');
         }
-        
+                
         $user = $this->getUser();
 
         $comments_criteria = array('parent' => $entity->getId());
@@ -117,11 +117,17 @@ class ArtController extends Controller {
         }
 
         $deleteForm = $this->createDeleteForm($id);
+        $deleteCommentForms = array();
+
+        foreach ($comments as $comment) {
+                $deleteCommentForms[$comment->getId()] = $this->createCommentDeleteForm($comment->getId())->createView();
+        }
         return $this->render('CustomAzureusBundle:Art:show.html.twig', array(
                     'entity' => $entity,
                     'delete_form' => $deleteForm->createView(),
                     'comments' => $comments,
                     'favourited' => $favourited,
+                    'delete_comments_form' => $deleteCommentForms
         ));
     }
 
@@ -314,6 +320,51 @@ class ArtController extends Controller {
                     'entity' => $entity,
                     'form' => $form->createView(),
         ));
+    }
+
+    /**
+     * Deletes a PostComment entity.
+     *
+     */
+    public function deleteCommentAction(Request $request, $id) {
+        $form = $this->createDeleteForm($id);
+        $form->handleRequest($request);
+        $art_id = null;
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $entity = $em->getRepository('CustomAzureusBundle:ArtComment')->find($id);
+            $art_id = $entity->getParent()->getId();
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find comment entity.');
+            }
+            if ($entity->getOwner()) {
+                if ($this->getUser()->getId() === $entity->getOwner()->getId() OR $this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                    $em->remove($entity);
+                    $em->flush();
+                }
+                else {
+                    throw $this->createNotFoundException('Unsufficent permission.');
+                    return $this->render('CustomAzureusBundle:Fun:ydtmw.html.twig');
+                }
+            }
+        }
+        return $this->redirect($this->generateUrl('art_show', array( 'id' => $art_id )));
+    }
+
+    /**
+     * Creates a form to delete a PostComment entity by id.
+     *
+     * @param mixed $id The entity id
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createCommentDeleteForm($id) {
+        return $this->createFormBuilder()
+                        ->setAction($this->generateUrl('art_comment_delete', array('id' => $id)))
+                        ->setMethod('DELETE')
+                        ->add('submit', 'submit', array('label' => 'Delete'))
+                        ->getForm()
+        ;
     }
 
     public function addFavouriteAction(Request $request, $art_id, $user_id) {
