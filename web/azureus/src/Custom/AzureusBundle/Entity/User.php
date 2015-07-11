@@ -63,6 +63,12 @@ class User implements UserInterface {
      * */
     private $favourites;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Post", inversedBy="favourite_posts")
+     * @ORM\JoinTable(name="users_favourite_posts")
+     * */
+    private $favourite_posts;
+
     function __construct() {
         $this->favourites = new \Doctrine\Common\Collections\ArrayCollection();
         $this->journal = new \Doctrine\Common\Collections\ArrayCollection();
@@ -245,6 +251,36 @@ class User implements UserInterface {
      */
     public function getFavourites() {
         return $this->favourites;
+    }
+
+    /**
+     * Add favourite_posts
+     *
+     * @param \Custom\AzureusBundle\Entity\Art $favourite_posts
+     * @return User
+     */
+    public function addFavouritePost(\Custom\AzureusBundle\Entity\Post $favourite_posts) {
+        $this->favourite_posts[] = $favourite_posts;
+
+        return $this;
+    }
+
+    /**
+     * Remove favourite_posts
+     *
+     * @param \Custom\AzureusBundle\Entity\Art $favourite_posts
+     */
+    public function removeFavouritePost(\Custom\AzureusBundle\Entity\Post $favourite_posts) {
+        $this->favourite_posts->removeElement($favourite_posts);
+    }
+
+    /**
+     * Get favourites
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFavouritePosts() {
+        return $this->favourite_posts;
     }
 
 }

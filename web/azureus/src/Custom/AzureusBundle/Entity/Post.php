@@ -54,10 +54,16 @@ class Post
      * @ORM\Column(name="date", type="datetime")
      */
     private $date;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="favourite_posts")
+     **/
+    private $favourite_posts;
     
     function __construct() {
         //$this->date = new \DateTime();
         $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->favourite_posts = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -183,6 +189,39 @@ class Post
     public function removeComment(\Custom\AzureusBundle\Entity\PostComment $comments)
     {
         $this->comments->removeElement($comments);
+    }
+
+    /**
+     * Add favourites
+     *
+     * @param \Custom\AzureusBundle\Entity\User $favourite_posts
+     * @return Post
+     */
+    public function addFavourite(\Custom\AzureusBundle\Entity\User $favourite_posts)
+    {
+        $this->favourite_posts[] = $favourite_posts;
+
+        return $this;
+    }
+
+    /**
+     * Remove favourites
+     *
+     * @param \Custom\AzureusBundle\Entity\User $favourite_posts
+     */
+    public function removeFavourite(\Custom\AzureusBundle\Entity\User $favourite_posts)
+    {
+        $this->favourite_posts->removeElement($favourite_posts);
+    }
+
+    /**
+     * Get favourites
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFavourites()
+    {
+        return $this->favourite_posts;
     }
 
     /**

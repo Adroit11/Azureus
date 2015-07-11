@@ -104,6 +104,15 @@ class PostController extends Controller {
         $comments_criteria = array('parent' => $entity->getId());
         $comments = $em->getRepository('CustomAzureusBundle:PostComment')->findBy($comments_criteria, ['date' => 'DESC'], 5);
         
+        $user = $this->getUser();
+
+        $favourited = false;
+
+        foreach ($entity->getFavourites() as $fav ) {
+            if($fav === $user)
+                $favourited = true;
+        }
+
         $deleteForm = $this->createDeleteForm($id);
 
         $deleteCommentForms = array();
@@ -116,6 +125,7 @@ class PostController extends Controller {
                     'entity' => $entity,
                     'delete_form' => $deleteForm->createView(),
                     'comments' => $comments,
+                    'favourited' => $favourited,
                     'delete_comments_form' => $deleteCommentForms
         ));
     }
@@ -353,5 +363,48 @@ class PostController extends Controller {
                         ->add('submit', 'submit', array('label' => 'Delete'))
                         ->getForm()
         ;
+    }
+
+    public function addFavouriteAction(Request $request, $post_id, $user_id) {
+        $logged_user = $this->getUser();
+        if($user_id == $logged_user->getId() ) {
+            try {
+            $em = $this->getDoctrine()->getManager();
+            $post = $em->getRepository('CustomAzureusBundle:Post')->find($post_id);
+            $user = $em->getRepository('CustomAzureusBundle:User')->find($user_id);
+            $user->addFavouritePost($post);
+            $em->flush();
+            }
+            catch(\Exception $e) {
+                throw $this->createNotFoundException('You already like this.');
+            }
+            return $this->showAction($post_id);
+        }
+        else {
+                throw $this->createNotFoundException('Unsufficent permission.');
+                return $this->render('CustomAzureusBundle:Fun:ydtmw.html.twig');
+        }
+    }
+
+    public function removeFavouriteAction(Request $request, $post_id, $user_id) {
+        $logged_user = $this->getUser();
+
+        if($user_id == $logged_user->getId() ) {
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $post = $em->getRepository('CustomAzureusBundle:Post')->find($post_id);
+                $user = $em->getRepository('CustomAzureusBundle:User')->find($user_id);
+                $user->removeFavouritePost($post);
+                $em->flush();
+            }
+            catch(\Exception $e) {
+                throw $this->createNotFoundException('You dont like this this.');
+            }
+            return $this->showAction($post_id);
+        }
+        else {
+                throw $this->createNotFoundException('Unsufficent permission.');
+                return $this->render('CustomAzureusBundle:Fun:ydtmw.html.twig');
+        }
     }
 }
