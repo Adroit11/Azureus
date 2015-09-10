@@ -368,45 +368,62 @@ class ArtController extends Controller {
     }
 
     public function addFavouriteAction(Request $request, $art_id, $user_id) {
-        $logged_user = $this->getUser();
-        if($user_id == $logged_user->getId() ) {
-            try {
-            $em = $this->getDoctrine()->getManager();
-            $art = $em->getRepository('CustomAzureusBundle:Art')->find($art_id);
-            $user = $em->getRepository('CustomAzureusBundle:User')->find($user_id);
-            $user->addFavourite($art);
-            $em->flush();
+        $isAjax = $this->get('Request')->isXMLHttpRequest();
+        if ($isAjax) {
+            $logged_user = $this->getUser();
+            if($user_id == $logged_user->getId() ) {
+                try {
+                $em = $this->getDoctrine()->getManager();
+                $art = $em->getRepository('CustomAzureusBundle:Art')->find($art_id);
+                $user = $em->getRepository('CustomAzureusBundle:User')->find($user_id);
+                $user->addFavourite($art);
+                $em->flush();
+                }
+                catch(\Exception $e) {
+                    //throw $this->createNotFoundException('You already like this.');
+                    return new Response('You already like this');
+                }
+                //return $this->showAction($art_id);
+                return new Response('Liked');
             }
-            catch(\Exception $e) {
-                throw $this->createNotFoundException('You already like this.');
-            }
-            return $this->showAction($art_id);
+            else {
+                    //throw $this->createNotFoundException('Unsufficent permission.');
+                    //return $this->render('CustomAzureusBundle:Fun:ydtmw.html.twig');
+                    return new Response('Unsufficent permission.');
+            }         
         }
         else {
-                throw $this->createNotFoundException('Unsufficent permission.');
-                return $this->render('CustomAzureusBundle:Fun:ydtmw.html.twig');
+            return new Response('This is not ajax!', 400);
         }
     }
 
     public function removeFavouriteAction(Request $request, $art_id, $user_id) {
-        $logged_user = $this->getUser();
+        $isAjax = $this->get('Request')->isXMLHttpRequest();
+        if ($isAjax) {
+            $logged_user = $this->getUser();
 
-        if($user_id == $logged_user->getId() ) {
-            try {
-                $em = $this->getDoctrine()->getManager();
-                $art = $em->getRepository('CustomAzureusBundle:Art')->find($art_id);
-                $user = $em->getRepository('CustomAzureusBundle:User')->find($user_id);
-                $user->removeFavourite($art);
-                $em->flush();
+            if($user_id == $logged_user->getId() ) {
+                try {
+                    $em = $this->getDoctrine()->getManager();
+                    $art = $em->getRepository('CustomAzureusBundle:Art')->find($art_id);
+                    $user = $em->getRepository('CustomAzureusBundle:User')->find($user_id);
+                    $user->removeFavourite($art);
+                    $em->flush();
+                }
+                catch(\Exception $e) {
+                    //throw $this->createNotFoundException('You dont like this this.');
+                    return new Response('You cant dislike what you dont like');
+                }
+                return $this->showAction($art_id);
             }
-            catch(\Exception $e) {
-                throw $this->createNotFoundException('You dont like this this.');
+            else {
+                    //throw $this->createNotFoundException('Unsufficent permission.');
+                    //return $this->render('CustomAzureusBundle:Fun:ydtmw.html.twig');
+                    return new Response('Unsufficent permission.');
             }
-            return $this->showAction($art_id);
         }
         else {
-                throw $this->createNotFoundException('Unsufficent permission.');
-                return $this->render('CustomAzureusBundle:Fun:ydtmw.html.twig');
-        }
+            return new Response('This is not ajax!', 400);
+        }   
     }
 }
